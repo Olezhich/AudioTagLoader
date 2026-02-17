@@ -11,6 +11,7 @@ requires-python = ">=3.12"
 dependencies = [
     "discogs-client (>=2.3.0,<3.0.0)",
     "python-dotenv (>=1.2.1,<2.0.0)",
+    "pydantic (>=2.12.5,<3.0.0)",
 ]
 
 [tool.poetry]
