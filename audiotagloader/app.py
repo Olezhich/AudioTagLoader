@@ -1,7 +1,8 @@
-import discogs_client
+import discogs_client  # type: ignore
+
 from .config import DISCOGS_TOKEN, MAX_PROPOSED_LEN
 
-from .models import Artist
+from .models import Artist, Album
 
 import re
 
@@ -21,6 +22,32 @@ class App:
 
         return res
 
+    def _get_albums_by_artist(self, artist: Artist) -> list[Album]:
+        releases = self._client.search(
+            type="master", format="album", artist=artist.name
+        ).sort(key="year", order="asc")
+
+        pattern = re.compile(rf"^({artist.aliases})\*?\s*-\s*(.+)$")
+
+        target_albums = []
+
+        for i in range(releases.pages):
+            for master in releases.page(i):
+                title_match = pattern.match(master.title)
+                if title_match:
+                    target_albums.append(
+                        Album(
+                            title=title_match.group(0),
+                            year=master.data.get("year", 0),
+                            genres=master.data.get("genre", None),
+                            styles=master.data.get("style", None),
+                            thumb=master.data.get("thumb", None),
+                            cover=master.data.get("cover", None),
+                        )
+                    )
+
+        return target_albums
+
     def select_artist(self, artist_name: str) -> None:
         artists = self._get_artists_by_name(artist_name)
 
@@ -31,20 +58,13 @@ class App:
             max(0, min(MAX_PROPOSED_LEN - 1, int(input("select artist: "))))
         ]
 
-        releases = self._client.search(
-            type="master", format="album", artist=current_artist.name
-        ).sort(key="year", order="asc")
+        albums = self._get_albums_by_artist(current_artist)
 
-        pat = rf"^({current_artist.aliases})\*?\s*-\s*(.+)$"
-        artist_pat = re.compile(pat)
+        for i in range(len(albums)):
+            print(f"[{i:02d}] {albums[i].year} - {albums[i].title}")
 
-        target_albums = []
+        current_album = albums[
+            max(0, min(len(albums) - 1, int(input("select album: "))))
+        ]
 
-        for i in range(releases.pages):
-            for master in releases.page(i):
-                if artist_pat.match(master.title):
-                    target_albums.append(master)
-
-        for i in range(len(target_albums)):
-            release = target_albums[i]
-            print(f"[{i:02d}] {release.data.get('year', 0)} - {release.title}")
+        print(current_album)
