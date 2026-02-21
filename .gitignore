@@ -204,5 +204,11 @@ project_dump.txt
 
 .secrets
 
+# cache data
+
+cache/data
+
 tags.txt
+
+
 
