@@ -31,6 +31,7 @@ class Album(BaseModel):
     genres: list[str] = Field(default_factory=lambda: list())
     styles: list[str] = Field(default_factory=lambda: list())
     thumb: Path = Field(default_factory=lambda: Path())
+    artist: str = Field(default="")
 
     @field_validator("genres", "styles", mode="before")
     @classmethod

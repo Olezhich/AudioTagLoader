@@ -7,6 +7,8 @@ from .models import Artist, Album, Image, Tracklist, Track
 
 import re
 
+from .output import track_tags_to_output
+
 
 class App:
     def __init__(self):
@@ -39,11 +41,12 @@ class App:
                     target_albums.append(
                         Album(
                             id=master.id,
-                            title=title_match.group(0),
+                            title=title_match.group(2),
                             year=master.data.get("year", 0),
                             genres=master.data.get("genre", None),
                             styles=master.data.get("style", None),
                             thumb=Path(master.data.get("thumb", "")),
+                            artist=artist.name,
                         ),
                     )
 
@@ -79,7 +82,10 @@ class App:
             tracks=[Track(title=track.title) for track in master.tracklist]
         )
 
-    def select_artist(self, artist_name: str) -> None:
+    @track_tags_to_output
+    def get_track_tags_by_artist(
+        self, artist_name: str
+    ) -> tuple[Album, Image, Tracklist]:
         artists = self._get_artists_by_name(artist_name)
 
         for i in range(len(artists)):
@@ -100,6 +106,5 @@ class App:
 
         image = self._get_cover_image(current_album.id)
         tracks = self._get_tracklist(current_album.id)
-        print(current_album)
-        print(image)
-        print(tracks)
+
+        return (current_album, image, tracks)

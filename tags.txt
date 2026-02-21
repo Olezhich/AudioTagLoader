@@ -1,0 +1,53 @@
+[0] Rainbow
+[1] Chris Rainbow
+[2] Rainbow (16)
+[3] Rainbow (18)
+[4] Rainbow (9)
+[5] Rainbow Train
+[6] Rainbow (29)
+[7] Rainbow (7)
+[8] Rainbow Team
+[9] Michael Rainbow
+select artist: [00] 1975 - Rainbow - Ritchie Blackmore's Rainbow
+[01] 1976 - Rainbow - Rainbow Rising / Ritchie Blackmore's Rainbow
+[02] 1976 - Blackmore's Rainbow* - Rainbow Rising
+[03] 1977 - Rainbow - On Stage
+[04] 1978 - Rainbow - Long Live Rock 'N' Roll
+[05] 1979 - Rainbow - Down To Earth
+[06] 1981 - Rainbow - Difficult To Cure
+[07] 1975 - Rainbow - Ritchie Blackmore's Rainbow
+[08] 1976 - Rainbow - Rainbow Rising / Ritchie Blackmore's Rainbow
+[09] 1976 - Blackmore's Rainbow* - Rainbow Rising
+[10] 1977 - Rainbow - On Stage
+[11] 1978 - Rainbow - Long Live Rock 'N' Roll
+[12] 1979 - Rainbow - Down To Earth
+[13] 1981 - Rainbow - Difficult To Cure
+[14] 1982 - Rainbow - Straight Between The Eyes
+[15] 1983 - Rainbow - Bent Out Of Shape
+[16] 1990 - Rainbow - Live In Germany 1976
+[17] 1994 - Rainbow - Down To Earth
+[18] 1995 - Ritchie Blackmore's Rainbow* - Stranger In Us All
+[19] 1999 - Rainbow - Rising / Finyl Vinyl Part I
+[20] 2004 - Rainbow - Definitive Graham
+[21] 2006 - Rainbow - Deutschland Tournee  1976
+[22] 2006 - Rainbow - Live In Munich 1977
+[23] 2007 - Rainbow - Swiss Made
+[24] 2010 - Rainbow - Captain Amazing & Mr.Cornflakes
+[25] 2011 - Rainbow - 5 Original Albums
+[26] 2013 - Ritchie Blackmore's Rainbow* - Black Masquerade
+[27] 2014 - Rainbow - Always Catch A Cold
+[28] 2015 - Rainbow - Denver 1979 Down To Earth Tour
+[29] 2015 - Rainbow - Long Island 1979 Down To Earth Tour
+[30] 2015 - Rainbow - Live In Japan
+[31] 2016 - Ritchie Blackmore's Rainbow* - Memories In Rock: Live In Germany
+[32] 2016 - Rainbow - Monsters Of Rock: Live At Donington 1980
+[33] 2017 - Ritchie Blackmore's Rainbow* - Live In Birmingham 2016
+[34] 2018 - Rainbow - Live Texas '82, King Biscuit Flower Hour
+[35] 2018 - Ritchie Blackmore's Rainbow* - Memories In Rock II (Live)
+select album: 
+1976	Blackmore's Rainbow* - Rainbow Rising	Rock	Hard Rock/Heavy Metal	1	Tarot Woman	https:/i.discogs.com/ry7ISyr0Gbwy_NSreNkYBAQlVNihikvbMsdNSKYcuJQ/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ0ODM3/NDktMTM2NjE4Mjg4/NS0xMjA2LmpwZWc.jpeg	https:/i.discogs.com/rNwD19S4NSiDrD6lTyzZYatIQ-YJ9hy0m4MGqqqtD94/rs:fit/g:sm/q:90/h:498/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ0ODM3/NDktMTM2NjE4Mjg4/NS0xMjA2LmpwZWc.jpeg	500	498
+1976	Blackmore's Rainbow* - Rainbow Rising	Rock	Hard Rock/Heavy Metal	2	Run With The Wolf	https:/i.discogs.com/ry7ISyr0Gbwy_NSreNkYBAQlVNihikvbMsdNSKYcuJQ/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ0ODM3/NDktMTM2NjE4Mjg4/NS0xMjA2LmpwZWc.jpeg	https:/i.discogs.com/rNwD19S4NSiDrD6lTyzZYatIQ-YJ9hy0m4MGqqqtD94/rs:fit/g:sm/q:90/h:498/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ0ODM3/NDktMTM2NjE4Mjg4/NS0xMjA2LmpwZWc.jpeg	500	498
+1976	Blackmore's Rainbow* - Rainbow Rising	Rock	Hard Rock/Heavy Metal	3	Starstruck	https:/i.discogs.com/ry7ISyr0Gbwy_NSreNkYBAQlVNihikvbMsdNSKYcuJQ/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ0ODM3/NDktMTM2NjE4Mjg4/NS0xMjA2LmpwZWc.jpeg	https:/i.discogs.com/rNwD19S4NSiDrD6lTyzZYatIQ-YJ9hy0m4MGqqqtD94/rs:fit/g:sm/q:90/h:498/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ0ODM3/NDktMTM2NjE4Mjg4/NS0xMjA2LmpwZWc.jpeg	500	498
+1976	Blackmore's Rainbow* - Rainbow Rising	Rock	Hard Rock/Heavy Metal	4	Do You Close Your Eyes	https:/i.discogs.com/ry7ISyr0Gbwy_NSreNkYBAQlVNihikvbMsdNSKYcuJQ/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ0ODM3/NDktMTM2NjE4Mjg4/NS0xMjA2LmpwZWc.jpeg	https:/i.discogs.com/rNwD19S4NSiDrD6lTyzZYatIQ-YJ9hy0m4MGqqqtD94/rs:fit/g:sm/q:90/h:498/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ0ODM3/NDktMTM2NjE4Mjg4/NS0xMjA2LmpwZWc.jpeg	500	498
+1976	Blackmore's Rainbow* - Rainbow Rising	Rock	Hard Rock/Heavy Metal	5	Stargazer	https:/i.discogs.com/ry7ISyr0Gbwy_NSreNkYBAQlVNihikvbMsdNSKYcuJQ/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ0ODM3/NDktMTM2NjE4Mjg4/NS0xMjA2LmpwZWc.jpeg	https:/i.discogs.com/rNwD19S4NSiDrD6lTyzZYatIQ-YJ9hy0m4MGqqqtD94/rs:fit/g:sm/q:90/h:498/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ0ODM3/NDktMTM2NjE4Mjg4/NS0xMjA2LmpwZWc.jpeg	500	498
+1976	Blackmore's Rainbow* - Rainbow Rising	Rock	Hard Rock/Heavy Metal	6	A Light In The Black	https:/i.discogs.com/ry7ISyr0Gbwy_NSreNkYBAQlVNihikvbMsdNSKYcuJQ/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ0ODM3/NDktMTM2NjE4Mjg4/NS0xMjA2LmpwZWc.jpeg	https:/i.discogs.com/rNwD19S4NSiDrD6lTyzZYatIQ-YJ9hy0m4MGqqqtD94/rs:fit/g:sm/q:90/h:498/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ0ODM3/NDktMTM2NjE4Mjg4/NS0xMjA2LmpwZWc.jpeg	500	498
