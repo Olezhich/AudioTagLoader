@@ -202,5 +202,5 @@ project_dump.txt
 
 #project secrets
 
-.env
+.secrets
 

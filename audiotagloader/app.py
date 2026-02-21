@@ -1,8 +1,9 @@
+from pathlib import Path
 import discogs_client  # type: ignore
 
-from .config import DISCOGS_TOKEN, MAX_PROPOSED_LEN
+from .config import DISCOGS_TOKEN, MAX_PROPOSED_LEN, IMAGE_SIZE_STUB
 
-from .models import Artist, Album
+from .models import Artist, Album, Image
 
 import re
 
@@ -22,6 +23,26 @@ class App:
 
         return res
 
+    def _get_cover_image(self, images: list[dict[str, str | int]]) -> Image:
+        try:
+            for image in images:
+                if image.get("type") == "primary":
+                    return Image(
+                        Path(image.get("resource_url", "")),  # type: ignore
+                        int(image.get("width", IMAGE_SIZE_STUB)),
+                        int(image.get("height", IMAGE_SIZE_STUB)),
+                    )
+
+            if len(images) > 0:
+                return Image(
+                    Path(images[0].get("resource_url", "")),  # type: ignore
+                    int(images[0].get("width", IMAGE_SIZE_STUB)),
+                    int(images[0].get("height", IMAGE_SIZE_STUB)),
+                )
+        except Exception:
+            return Image()
+        return Image()
+
     def _get_albums_by_artist(self, artist: Artist) -> list[Album]:
         releases = self._client.search(
             type="master", format="album", artist=artist.name
@@ -37,13 +58,13 @@ class App:
                 if title_match:
                     target_albums.append(
                         Album(
+                            id=master.id,
                             title=title_match.group(0),
                             year=master.data.get("year", 0),
                             genres=master.data.get("genre", None),
                             styles=master.data.get("style", None),
-                            thumb=master.data.get("thumb", None),
-                            cover=master.data.get("cover", None),
-                        )
+                            thumb=Path(master.data.get("thumb", "")),
+                        ),
                     )
 
         return target_albums

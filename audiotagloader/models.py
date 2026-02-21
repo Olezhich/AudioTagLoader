@@ -1,5 +1,8 @@
+from __future__ import annotations
 from pathlib import Path
 from pydantic import BaseModel, Field, field_validator
+
+from .config import PERMITTED_IMAGE_EXTS, IMAGE_SIZE_STUB
 
 
 class Artist(BaseModel):
@@ -22,12 +25,12 @@ class Artist(BaseModel):
 
 
 class Album(BaseModel):
+    id: int
     title: str = Field(default="")
     year: int = Field(default=0)
     genres: list[str] = Field(default_factory=lambda: list())
     styles: list[str] = Field(default_factory=lambda: list())
     thumb: Path = Field(default_factory=lambda: Path())
-    cover: Path = Field(default_factory=lambda: Path())
 
     @field_validator("genres", "styles", mode="before")
     @classmethod
@@ -37,9 +40,17 @@ class Album(BaseModel):
             return res
         return value
 
-    @field_validator("thumb", "cover", mode="before")
+
+class Image(BaseModel):
+    url: Path = Field(default_factory=lambda: Path())
+    width: int = Field(default=IMAGE_SIZE_STUB)
+    height: int = Field(default=IMAGE_SIZE_STUB)
+
+    @field_validator("url", mode="before")
     @classmethod
-    def normlize_path(cls, value: str | None) -> Path:
-        if value is None:
-            return Path()
-        return Path(value)
+    def check_extension(cls, url: Path) -> Path:
+        if url and not any(
+            str(url).lower().endswith(ext) for ext in PERMITTED_IMAGE_EXTS
+        ):
+            raise ValueError(f"image url extension sould be in: {PERMITTED_IMAGE_EXTS}")
+        return url
