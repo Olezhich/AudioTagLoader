@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: AudioTagLoader
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - ./data:/data
+      - ./redis.conf:/redis.conf:ro
+    command: redis-server /redis.conf --requirepass REDIS_PASSWORD
