@@ -54,3 +54,27 @@ class Image(BaseModel):
         ):
             raise ValueError(f"image url extension sould be in: {PERMITTED_IMAGE_EXTS}")
         return url
+
+
+class Track(BaseModel):
+    title: str = Field(default="")
+    position: int = Field(default=0)
+
+
+class Tracklist(BaseModel):
+    tracks: list[Track] = Field(default_factory=lambda: list())
+
+    @field_validator("tracks", mode="before")
+    @classmethod
+    def normalize_tracks(cls, value: list[Track] | None) -> list[Track]:
+        if value is None:
+            res: list[Track] = []
+            return res
+        return value
+
+    @field_validator("tracks", mode="after")
+    @classmethod
+    def convert_track_position(cls, tracks: list[Track]) -> list[Track]:
+        for i in range(len(tracks)):
+            tracks[i].position = i + 1
+        return tracks

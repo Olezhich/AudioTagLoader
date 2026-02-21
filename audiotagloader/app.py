@@ -3,7 +3,7 @@ import discogs_client  # type: ignore
 
 from .config import DISCOGS_TOKEN, MAX_PROPOSED_LEN, IMAGE_SIZE_STUB
 
-from .models import Artist, Album, Image
+from .models import Artist, Album, Image, Tracklist, Track
 
 import re
 
@@ -22,26 +22,6 @@ class App:
             res.append(Artist(name=current.name, variations=current.name_variations))
 
         return res
-
-    def _get_cover_image(self, images: list[dict[str, str | int]]) -> Image:
-        try:
-            for image in images:
-                if image.get("type") == "primary":
-                    return Image(
-                        Path(image.get("resource_url", "")),  # type: ignore
-                        int(image.get("width", IMAGE_SIZE_STUB)),
-                        int(image.get("height", IMAGE_SIZE_STUB)),
-                    )
-
-            if len(images) > 0:
-                return Image(
-                    Path(images[0].get("resource_url", "")),  # type: ignore
-                    int(images[0].get("width", IMAGE_SIZE_STUB)),
-                    int(images[0].get("height", IMAGE_SIZE_STUB)),
-                )
-        except Exception:
-            return Image()
-        return Image()
 
     def _get_albums_by_artist(self, artist: Artist) -> list[Album]:
         releases = self._client.search(
@@ -69,6 +49,36 @@ class App:
 
         return target_albums
 
+    def _get_cover_image(self, album_id: int) -> Image:
+        master = self._client.master(album_id)
+
+        images = master.images
+        try:
+            for image in images:
+                if image.get("type", "") == "primary":
+                    return Image(
+                        url=Path(image.get("resource_url", "")),  # type: ignore
+                        width=int(image.get("width", IMAGE_SIZE_STUB)),
+                        height=int(image.get("height", IMAGE_SIZE_STUB)),
+                    )
+
+            if len(images) > 0:
+                return Image(
+                    url=Path(images[0].get("resource_url", "")),  # type: ignore
+                    width=int(images[0].get("width", IMAGE_SIZE_STUB)),
+                    height=int(images[0].get("height", IMAGE_SIZE_STUB)),
+                )
+        except Exception:
+            return Image()
+        return Image()
+
+    def _get_tracklist(self, album_id: int) -> Tracklist:
+        master = self._client.master(album_id)
+
+        return Tracklist(
+            tracks=[Track(title=track.title) for track in master.tracklist]
+        )
+
     def select_artist(self, artist_name: str) -> None:
         artists = self._get_artists_by_name(artist_name)
 
@@ -88,4 +98,8 @@ class App:
             max(0, min(len(albums) - 1, int(input("select album: "))))
         ]
 
+        image = self._get_cover_image(current_album.id)
+        tracks = self._get_tracklist(current_album.id)
         print(current_album)
+        print(image)
+        print(tracks)
