@@ -1,3 +1,4 @@
+from pathlib import Path
 import discogs_client  # type: ignore
 
 from .config import DISCOGS_TOKEN, MAX_PROPOSED_LEN, IMAGE_SIZE_STUB
@@ -12,8 +13,9 @@ from .cache import cache
 
 
 class App:
-    def __init__(self):
+    def __init__(self, target_dir: Path):
         self._client = discogs_client.Client("Fetcher/1.0", user_token=DISCOGS_TOKEN)
+        self._target_dir = target_dir
 
     @cache
     def _get_artists_by_name(self, name: str) -> list[Artist]:
