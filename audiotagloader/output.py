@@ -11,7 +11,7 @@ def track_tags_to_output(func) -> Callable:
 
         album, image, tracklist = res
 
-        dir = getattr(args[0], '_target_dir')
+        dir = getattr(args[0], "_target_dir")
 
         table = []
 
@@ -32,7 +32,7 @@ def track_tags_to_output(func) -> Callable:
             line_str = "\t".join([str(i) for i in line])
             table.append(line_str)
 
-        with open((dir / 'tags.txt'), 'w') as fp:
+        with open((dir / "tags.txt"), "w") as fp:
             fp.write("\n".join(table))
         return res
 
