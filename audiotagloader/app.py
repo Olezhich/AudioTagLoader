@@ -1,4 +1,3 @@
-from pathlib import Path
 import discogs_client  # type: ignore
 
 from .config import DISCOGS_TOKEN, MAX_PROPOSED_LEN, IMAGE_SIZE_STUB
@@ -9,11 +8,14 @@ import re
 
 from .output import track_tags_to_output
 
+from .cache import cache
+
 
 class App:
     def __init__(self):
         self._client = discogs_client.Client("Fetcher/1.0", user_token=DISCOGS_TOKEN)
 
+    @cache
     def _get_artists_by_name(self, name: str) -> list[Artist]:
         res = []
 
@@ -25,6 +27,7 @@ class App:
 
         return res
 
+    @cache
     def _get_albums_by_artist(self, artist: Artist) -> list[Album]:
         releases = self._client.search(
             type="master", format="album", artist=artist.name
@@ -45,13 +48,14 @@ class App:
                             year=master.data.get("year", 0),
                             genres=master.data.get("genre", None),
                             styles=master.data.get("style", None),
-                            thumb=Path(master.data.get("thumb", "")),
+                            thumb=master.data.get("thumb", ""),
                             artist=artist.name,
                         ),
                     )
 
         return target_albums
 
+    @cache
     def _get_cover_image(self, album_id: int) -> Image:
         master = self._client.master(album_id)
 
@@ -60,14 +64,14 @@ class App:
             for image in images:
                 if image.get("type", "") == "primary":
                     return Image(
-                        url=Path(image.get("resource_url", "")),  # type: ignore
+                        url=image.get("resource_url", ""),
                         width=int(image.get("width", IMAGE_SIZE_STUB)),
                         height=int(image.get("height", IMAGE_SIZE_STUB)),
                     )
 
             if len(images) > 0:
                 return Image(
-                    url=Path(images[0].get("resource_url", "")),  # type: ignore
+                    url=images[0].get("resource_url", ""),
                     width=int(images[0].get("width", IMAGE_SIZE_STUB)),
                     height=int(images[0].get("height", IMAGE_SIZE_STUB)),
                 )
@@ -75,6 +79,7 @@ class App:
             return Image()
         return Image()
 
+    @cache
     def _get_tracklist(self, album_id: int) -> Tracklist:
         master = self._client.master(album_id)
 
