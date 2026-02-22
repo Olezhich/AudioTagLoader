@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-DIR=$(pwd)
+DIR="$1"
 IFS=$'\t' read -ra f
 
 curl -so "$DIR/thumb.jpg" "${f[7]}"
