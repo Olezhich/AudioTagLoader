@@ -11,6 +11,8 @@ from .output import track_tags_to_output
 
 from .cache import cache
 
+from pydantic import ValidationError
+
 
 class App:
     def __init__(self, target_dir: Path):
@@ -43,17 +45,20 @@ class App:
             for master in releases.page(i):
                 title_match = pattern.match(master.title)
                 if title_match:
-                    target_albums.append(
-                        Album(
-                            id=master.id,
-                            title=title_match.group(2),
-                            year=master.data.get("year", 0),
-                            genres=master.data.get("genre", None),
-                            styles=master.data.get("style", None),
-                            thumb=master.data.get("thumb", ""),
-                            artist=artist.name,
-                        ),
-                    )
+                    try:
+                        target_albums.append(
+                            Album(
+                                id=master.id,
+                                title=title_match.group(2),
+                                year=master.data.get("year", 0),
+                                genres=master.data.get("genre", None),
+                                styles=master.data.get("style", None),
+                                thumb=master.data.get("thumb", ""),
+                                artist=artist.name,
+                            ),
+                        )
+                    except ValidationError:
+                        pass
 
         return target_albums
 
