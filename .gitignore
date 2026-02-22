@@ -211,6 +211,10 @@ project_dump.txt
 
 cache/data
 
+# results
+
+tags.txt
+
 # MacOS
 
 .DS_Store
