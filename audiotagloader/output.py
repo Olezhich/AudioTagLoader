@@ -34,6 +34,7 @@ def track_tags_to_output(func) -> Callable:
 
         with open((dir / "tags.txt"), "w") as fp:
             fp.write("\n".join(table))
+            fp.write("\n")
         return res
 
     return wrapper
