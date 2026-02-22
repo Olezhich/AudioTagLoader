@@ -196,6 +196,9 @@ cython_debug/
 .idea/
 
 .vscode/
+
+# Dev
+
 Makefile
 
 project_dump.txt
@@ -208,7 +211,11 @@ project_dump.txt
 
 cache/data
 
-tags.txt
+# MacOS
+
+.DS_Store
+
+
 
 
 

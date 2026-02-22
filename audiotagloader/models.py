@@ -1,5 +1,4 @@
 from __future__ import annotations
-from pathlib import Path
 from pydantic import BaseModel, Field, field_validator
 
 from .config import PERMITTED_IMAGE_EXTS, IMAGE_SIZE_STUB
@@ -30,7 +29,7 @@ class Album(BaseModel):
     year: int = Field(default=0)
     genres: list[str] = Field(default_factory=lambda: list())
     styles: list[str] = Field(default_factory=lambda: list())
-    thumb: Path = Field(default_factory=lambda: Path())
+    thumb: str = Field(default="")
     artist: str = Field(default="")
 
     @field_validator("genres", "styles", mode="before")
@@ -43,16 +42,14 @@ class Album(BaseModel):
 
 
 class Image(BaseModel):
-    url: Path = Field(default_factory=lambda: Path())
+    url: str = Field(default="")
     width: int = Field(default=IMAGE_SIZE_STUB)
     height: int = Field(default=IMAGE_SIZE_STUB)
 
     @field_validator("url", mode="before")
     @classmethod
-    def check_extension(cls, url: Path) -> Path:
-        if url and not any(
-            str(url).lower().endswith(ext) for ext in PERMITTED_IMAGE_EXTS
-        ):
+    def check_extension(cls, url: str) -> str:
+        if url and not any(url.lower().endswith(ext) for ext in PERMITTED_IMAGE_EXTS):
             raise ValueError(f"image url extension sould be in: {PERMITTED_IMAGE_EXTS}")
         return url
 
