@@ -21,7 +21,8 @@ cd AudioTagLoader
 # install the dependencies from pyprodject.toml
 poetry install
 
-# run docker redis container
+echo DISCOGS_TOKEN="YOUR_DISCOGS_TOKEN" > .secrets
 
+# run docker redis container
 docker-compose -f cache/docker-compose.yml up -d   
  ```
