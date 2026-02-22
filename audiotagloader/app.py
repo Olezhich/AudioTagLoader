@@ -56,7 +56,6 @@ class App:
                                 thumb=master.data.get("thumb", ""),
                                 artist=artist.name,
                             ),
-                    
                         )
                     except ValidationError:
                         pass
