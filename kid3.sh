@@ -10,7 +10,7 @@ while IFS= read -r -d '' file; do
 done < <(find "$DIR" -maxdepth 1 -iname "*.dsf" -type f -print0 | sort -z)
 
 i=0
-while IFS=$'\t' read -r year artist album genre style track title thumb cover; do
+while IFS=$'\t' read -r year artist album genre track title thumb cover; do
     echo "[${i}] ${dsf[$i]}"
 
     kid3-cli -c "select \"${dsf[$i]}\"" \

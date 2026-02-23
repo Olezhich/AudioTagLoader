@@ -16,16 +16,30 @@ class RedisClient:
             password=password,
             decode_responses=decode_responses,
             db=0,
-            socket_connect_timeout=5,
+            socket_connect_timeout=0.5,
+            socket_timeout=0.5,
+            retry_on_timeout=False,
         )
-
-        print("REDIS PING:", self._client.ping())
+        try:
+            self._connected = self._client.ping()
+        except Exception:
+            self._connected = False
 
     def get(self, key: str) -> bytes | None:
-        return self._client.get(key)  # type: ignore
+        try:
+            if self._connected:
+                return self._client.get(key)  # type: ignore
+            return None
+        except Exception:
+            return None
 
     def set(self, key: str, value: bytes) -> bool:
-        return self._client.set(key, value)  # type: ignore
+        try:
+            if self._connected:
+                return self._client.set(key, value)  # type: ignore
+            return False
+        except Exception:
+            return False
 
 
 redis_client = RedisClient()

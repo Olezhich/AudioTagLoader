@@ -16,12 +16,12 @@ def track_tags_to_output(func) -> Callable:
         table = []
 
         for track in tracklist.tracks:
+            total_genres = album.genres + album.styles
             line = [
                 album.year,
                 album.artist,
                 album.title,
-                "/".join(album.genres),
-                "/".join(album.styles),
+                "/".join(total_genres),
                 track.position,
                 track.title,
                 album.thumb,
