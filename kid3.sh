@@ -12,7 +12,7 @@ done < <(find "$DIR" -maxdepth 1 -iname "*.dsf" -type f -print0 | sort -z)
 i=0
 while IFS=$'\t' read -r year artist album genre track title thumb cover; do
     echo "[${i}] ${dsf[$i]}"
-
+    safe_cover=$(printf %q "$cover")
     kid3-cli -c "select \"${dsf[$i]}\"" \
              -c "remove 2" \
              -c "set artist \"$artist\"" \
@@ -21,7 +21,7 @@ while IFS=$'\t' read -r year artist album genre track title thumb cover; do
              -c "set track \"$track\"" \
              -c "set date \"$year\"" \
              -c "set genre \"$genre\"" \
-             -c "set picture:'$cover' ''" \
+             -c "set picture:'$safe_cover' ''" \
              -c "save"
     ((i++))  || true
 done < "$1"
