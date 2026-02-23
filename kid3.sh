@@ -21,7 +21,7 @@ while IFS=$'\t' read -r year artist album genre track title thumb cover; do
              -c "set track \"$track\"" \
              -c "set date \"$year\"" \
              -c "set genre \"$genre\"" \
-             -c "set picture \"$cover\"" \
+             -c "set picture:'$cover' ''" \
              -c "save"
     ((i++))  || true
 done < "$1"
