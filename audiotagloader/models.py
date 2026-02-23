@@ -3,6 +3,8 @@ from pydantic import BaseModel, Field, field_validator
 
 from .config import PERMITTED_IMAGE_EXTS, IMAGE_SIZE_STUB
 
+import re
+
 
 class Artist(BaseModel):
     name: str = Field(default="", description="main artist name")
@@ -20,7 +22,8 @@ class Artist(BaseModel):
 
     @property
     def aliases(self) -> str:
-        return "|".join([self.name] + self.variations)
+        lst = sorted([self.name] + self.variations, key=len, reverse=True)
+        return "|".join([re.escape(alias) for alias in lst])
 
 
 class Album(BaseModel):

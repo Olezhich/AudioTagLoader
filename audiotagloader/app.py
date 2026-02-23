@@ -11,8 +11,6 @@ from .output import track_tags_to_output
 
 from .cache import cache
 
-from pydantic import ValidationError
-
 
 class App:
     def __init__(self, target_dir: Path):
@@ -37,7 +35,7 @@ class App:
             type="master", format="album", artist=artist.name
         ).sort(key="year", order="asc")
 
-        pattern = re.compile(rf"^({artist.aliases})\*?\s*-\s*(.+)$")
+        pattern = re.compile(rf"^({artist.aliases})\*?\s*\S+\s*(.+)$")
 
         target_albums = []
 
@@ -57,7 +55,7 @@ class App:
                                 artist=artist.name,
                             ),
                         )
-                    except ValidationError:
+                    except Exception:
                         pass
 
         return target_albums
