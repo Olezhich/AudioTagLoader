@@ -26,7 +26,7 @@ class Artist(BaseModel):
         return "|".join([re.escape(alias) for alias in lst])
 
 
-class Album(BaseModel):
+class Album(BaseModel, frozen=True):
     id: int
     title: str = Field(default="")
     year: int = Field(default=0)
@@ -42,6 +42,14 @@ class Album(BaseModel):
             res: list[str] = []
             return res
         return value
+
+    def __hash__(self):
+        return hash(self.id)
+
+    def __eq__(self, other):
+        if not isinstance(other, Album):
+            return False
+        return self.id == other.id
 
 
 class Image(BaseModel):

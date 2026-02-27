@@ -11,8 +11,11 @@
  - Fast `Redis` cache
  - A user-friendly interface for selecting the desired artist and then the desired album
  - Working on Linux/MacOS
+ - Suported formats: `.flac`, `.dsf`
 
  ## QuickStart
+ ### Installation
+
  ```bash
 git clone https://github.com/Olezhich/AudioTagLoader.git
 
@@ -25,4 +28,23 @@ echo DISCOGS_TOKEN="YOUR_DISCOGS_TOKEN" > .secrets
 
 # run docker redis container
 docker-compose -f cache/docker-compose.yml up -d   
+ ```
+
+You also may add `autag` script into `$PATH`. 
+
+ ### Uisng
+
+ ```bash
+# First step: go to taget directory where your tracks exists
+
+cd YOUR_DIR
+
+# Second step: load tags into tags.txt file
+
+# Load tags by artist name:
+autag fba "The Artist Name" .
+
+# Final step: set tags into tracks
+
+autag set
  ```
