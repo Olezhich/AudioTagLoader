@@ -37,14 +37,14 @@ class App:
 
         pattern = re.compile(rf"^({artist.aliases})\*?\s*\S+\s*(.+)$")
 
-        target_albums = []
+        target_albums = set()
 
         for i in range(releases.pages):
             for master in releases.page(i):
                 title_match = pattern.match(master.title)
                 if title_match:
                     try:
-                        target_albums.append(
+                        target_albums.add(
                             Album(
                                 id=master.id,
                                 title=title_match.group(2),
@@ -58,7 +58,7 @@ class App:
                     except Exception:
                         pass
 
-        return target_albums
+        return sorted([i for i in target_albums], key=lambda x: x.year)
 
     @cache
     def _get_cover_image(self, album_id: int) -> Image:
@@ -108,7 +108,7 @@ class App:
         albums = self._get_albums_by_artist(current_artist)
 
         for i in range(len(albums)):
-            print(f"[{i:02d}] {albums[i].year} - {albums[i].title}")
+            print(f"[{i:02d}] {albums[i].year} - {albums[i].title} {albums[i].id}")
 
         current_album = albums[
             max(0, min(len(albums) - 1, int(input("select album: "))))
