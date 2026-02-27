@@ -7,7 +7,7 @@ DIR="$(dirname "$1")"
 dsf=()
 while IFS= read -r -d '' file; do
     dsf+=("$file")
-done < <(find "$DIR" -maxdepth 1 -iname "*.dsf" -type f -print0 | sort -z)
+done < <(find "$DIR" -maxdepth 1 \( -iname "*.dsf" -o -iname "*.flac" \) -type f -print0 | sort -z) 
 
 i=0
 while IFS=$'\t' read -r year artist album genre track title thumb cover; do
