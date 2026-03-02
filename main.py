@@ -12,6 +12,9 @@ if __name__ == "__main__":
     if argc == 4 and (sys.argv[1] == "fetch_by_artist" or sys.argv[1] == "fba"):
         app = audiotagloader.App(Path(sys.argv[3]).resolve())
         app.get_track_tags_by_artist(sys.argv[2])
+    elif argc == 4 and (sys.argv[1] == "fetch_by_master_id" or sys.argv[1] == "fbmi"):
+        app = audiotagloader.App(Path(sys.argv[3]).resolve())
+        app.get_track_tags_by_master_id(int(sys.argv[2]))
     elif argc == 2 and (sys.argv[1] == "--help" or sys.argv[1] == "-h"):
         print("--help, -h: run help")
         print("fetch_by_artist, fba: load audio tags by artist name and album title")
