@@ -7,8 +7,6 @@ IFS=$'\t' read -ra f
 
 if [ "${f[6]}" != "Null" ]; then
     curl -so "$DIR/thumb.jpg" "${f[6]}"
-else
-    echo "no thumb.jpg"
 fi
 
 if [ "${f[7]}" != "Null" ]; then
@@ -19,8 +17,6 @@ if [ "${f[7]}" != "Null" ]; then
     convert "$DIR/cover_tmp.jpg" -gravity center -crop ${m}x${m}+0+0 +repage "$DIR/cover.jpg" 2>/dev/null
 
     rm "$DIR/cover_tmp.jpg"
-else
-    echo "no cover.jpg"
 fi
 
 printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' "${f[@]:0:6}" "$DIR/thumb.jpg" "$DIR/cover.jpg"
