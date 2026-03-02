@@ -61,6 +61,19 @@ class App:
         return sorted([i for i in target_albums], key=lambda x: x.year)
 
     @cache
+    def _get_album_by_id(self, master_id: int) -> Album:
+        master = self._client.master(master_id)
+        return Album(
+            id=master.id,
+            title=master.title,
+            year=master.data.get("year", 0),
+            genres=master.data.get("genre", None),
+            styles=master.data.get("style", None),
+            thumb=master.data.get("thumb", ""),
+            artist="VA",
+        )
+
+    @cache
     def _get_cover_image(self, album_id: int) -> Image:
         master = self._client.master(album_id)
 
@@ -114,6 +127,16 @@ class App:
             max(0, min(len(albums) - 1, int(input("select album: "))))
         ]
 
+        image = self._get_cover_image(current_album.id)
+        tracks = self._get_tracklist(current_album.id)
+
+        return (current_album, image, tracks)
+
+    @track_tags_to_output
+    def get_track_tags_by_master_id(
+        self, master_id: int
+    ) -> tuple[Album, Image, Tracklist]:
+        current_album = self._get_album_by_id(master_id)
         image = self._get_cover_image(current_album.id)
         tracks = self._get_tracklist(current_album.id)
 

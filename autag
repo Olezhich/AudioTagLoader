@@ -12,6 +12,9 @@ case "$cmd" in
     fba) 
         cd $PROJECT
         poetry run python main.py fba "$1" "$DESTINATION" ;;
+    fbmi)
+        cd $PROJECT
+        poetry run python main.py fbmi "$1" "$DESTINATION" ;;
     set) 
         cat "$DESTINATION/tags.txt" | "$PROJECT/load_img.sh" "$DESTINATION" > "$DESTINATION/tags.tmp" && mv "$DESTINATION/tags.tmp" "$DESTINATION/tags.txt"  
         "$PROJECT/kid3.sh" "$DESTINATION/tags.txt" 
