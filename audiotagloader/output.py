@@ -29,7 +29,7 @@ def track_tags_to_output(func) -> Callable:
                 image.width,
                 image.height,
             ]
-            line_str = "\t".join([str(i) for i in line])
+            line_str = "\t".join([str(i) if i else "Null" for i in line])
             table.append(line_str)
 
         with open((dir / "tags.txt"), "w") as fp:
