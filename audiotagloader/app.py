@@ -3,7 +3,7 @@ import discogs_client  # type: ignore
 
 from .config import DISCOGS_TOKEN, MAX_PROPOSED_LEN, IMAGE_SIZE_STUB
 
-from .models import Artist, Album, Image, Tracklist, Track
+from .models import Artist, Album, Image, Tracklist, Track, ReleaseType
 
 import re
 
@@ -61,22 +61,39 @@ class App:
         return sorted([i for i in target_albums], key=lambda x: x.year)
 
     @cache
-    def _get_album_by_id(self, master_id: int) -> Album:
-        master = self._client.master(master_id)
+    def _get_album_by_id(
+        self, master_id: int, type: ReleaseType = ReleaseType.MASTER
+    ) -> Album:
+        master = (
+            self._client.master(master_id)
+            if type == ReleaseType.MASTER
+            else self._client.release(master_id)
+        )
+        print(
+            master.genres,
+            master.styles,
+            master.data.get("genre", None),
+            master.data.get("style", None),
+        )
         return Album(
             id=master.id,
             title=master.title,
             year=master.data.get("year", 0),
-            genres=master.data.get("genre", None),
-            styles=master.data.get("style", None),
+            genres=master.genres,
+            styles=master.styles,
             thumb=master.data.get("thumb", ""),
             artist="VA",
         )
 
     @cache
-    def _get_cover_image(self, album_id: int) -> Image:
-        master = self._client.master(album_id)
-
+    def _get_cover_image(
+        self, album_id: int, type: ReleaseType = ReleaseType.MASTER
+    ) -> Image:
+        master = (
+            self._client.master(album_id)
+            if type == ReleaseType.MASTER
+            else self._client.release(album_id)
+        )
         images = master.images
         try:
             for image in images:
@@ -98,8 +115,14 @@ class App:
         return Image()
 
     @cache
-    def _get_tracklist(self, album_id: int) -> Tracklist:
-        master = self._client.master(album_id)
+    def _get_tracklist(
+        self, album_id: int, type: ReleaseType = ReleaseType.MASTER
+    ) -> Tracklist:
+        master = (
+            self._client.master(album_id)
+            if type == ReleaseType.MASTER
+            else self._client.release(album_id)
+        )
 
         return Tracklist(
             tracks=[Track(title=track.title) for track in master.tracklist]
@@ -139,5 +162,15 @@ class App:
         current_album = self._get_album_by_id(master_id)
         image = self._get_cover_image(current_album.id)
         tracks = self._get_tracklist(current_album.id)
+
+        return (current_album, image, tracks)
+
+    @track_tags_to_output
+    def get_track_tags_by_release_id(
+        self, release_id: int
+    ) -> tuple[Album, Image, Tracklist]:
+        current_album = self._get_album_by_id(release_id, ReleaseType.RELEASE)
+        image = self._get_cover_image(current_album.id, ReleaseType.RELEASE)
+        tracks = self._get_tracklist(current_album.id, ReleaseType.RELEASE)
 
         return (current_album, image, tracks)

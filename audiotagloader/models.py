@@ -1,9 +1,15 @@
 from __future__ import annotations
+from enum import Enum
 from pydantic import BaseModel, Field, field_validator
 
 from .config import PERMITTED_IMAGE_EXTS, IMAGE_SIZE_STUB
 
 import re
+
+
+class ReleaseType(Enum):
+    MASTER = "master"
+    RELEASE = "release"
 
 
 class Artist(BaseModel):
