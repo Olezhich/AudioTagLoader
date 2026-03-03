@@ -1,0 +1,9 @@
+#!/bin/bash
+DESTINATION="$(pwd)"
+
+PROJECT="$(cd "$(dirname "$0")" && pwd)"
+
+cat "$DESTINATION/tags.txt" | "$PROJECT/scripts/load_img.sh" "$DESTINATION" > "$DESTINATION/tags.tmp" && mv "$DESTINATION/tags.tmp" "$DESTINATION/tags.txt"  
+"$PROJECT/scripts/kid3.sh" "$DESTINATION/tags.txt" 
+"$PROJECT/scripts/clear.sh" "$DESTINATION"
+
