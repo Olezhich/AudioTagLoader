@@ -7,6 +7,8 @@ from pydantic import BaseModel
 
 from .redis import redis_client
 
+UPDATE_CACHE = False
+
 
 def hash_key(func_name: str, args: tuple, kwargs: dict) -> str:
     key_dump = {
