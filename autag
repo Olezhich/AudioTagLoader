@@ -16,4 +16,4 @@ PROJECT="$(cd "$(dirname "$0")" && pwd)"
 
 
 cd "$PROJECT"
-poetry run python main.py "$cmd" "${@:1:$#-1}" "$DESTINATION"
+poetry run python main.py "$cmd" "$DESTINATION" "$@"
