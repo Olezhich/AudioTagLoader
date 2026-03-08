@@ -11,6 +11,16 @@ from .output import track_tags_to_output
 
 from .cache import cache
 
+import questionary
+
+custom_style = questionary.Style(
+    [
+        ("selected", "#ffffff bg:#0066cc"),
+        ("highlighted", "#ffffff bg:#0066cc"),
+        ("pointer", "#ff0000 bold"),
+    ]
+)
+
 
 class App:
     def __init__(self, target_dir: Path):
@@ -134,21 +144,38 @@ class App:
     ) -> tuple[Album, Image, Tracklist]:
         artists = self._get_artists_by_name(artist_name)
 
-        for i in range(len(artists)):
-            print(f"[{i}] {artists[i].name}")
+        choices = []
+        for i, artist in enumerate(artists):
+            choices.append(
+                questionary.Choice(title=f"[{i:02d}] {artist.name}", value=artist)
+            )
 
-        current_artist = artists[
-            max(0, min(MAX_PROPOSED_LEN - 1, int(input("select artist: "))))
-        ]
+        current_artist = questionary.select(
+            "Select artist:",
+            style=custom_style,
+            choices=choices,
+        ).ask()
 
         albums = self._get_albums_by_artist(current_artist)
 
-        for i in range(len(albums)):
-            print(f"[{i:02d}] {albums[i].year} - {albums[i].title} {albums[i].id}")
+        max_title_len = min(max(max(len(a.title) for a in albums), 40), 40)
 
-        current_album = albums[
-            max(0, min(len(albums) - 1, int(input("select album: "))))
-        ]
+        choices = []
+        for i, album in enumerate(albums):
+            title = album.title
+            if len(title) > 40:
+                title = title[:37] + "..."
+            title_str = (
+                f"[{i:02d}] {album.year:04d} - {title:<{max_title_len}} - {album.id}"
+            )
+
+            choices.append(questionary.Choice(title=title_str, value=album))
+
+        current_album = questionary.select(
+            "Select album:",
+            style=custom_style,
+            choices=choices,
+        ).ask()
 
         image = self._get_cover_image(current_album.id)
         tracks = self._get_tracklist(current_album.id)
