@@ -32,22 +32,23 @@ def cache(func: Callable) -> Callable:
 
         key = hash_key(func.__name__, args, kwargs)
         print("HASH KEY:", key)
+        if not UPDATE_CACHE:
+            try:
+                data = redis_client.get(key)
 
-        try:
-            data = redis_client.get(key)
-
-            if data is not None and issubclass(return_type, BaseModel):
-                return return_type.model_validate_json(data.decode())
-            elif data is not None:
-                arg_type = get_args(return_type)
-                current_type = arg_type[0]
-                print("load from redis")
-                return [
-                    current_type.model_validate(item)
-                    for item in json.loads(data.decode())
-                ]
-        except Exception as e:
-            raise e
+                if data is not None:
+                    if issubclass(return_type, BaseModel):
+                        return return_type.model_validate_json(data.decode())
+                    else:
+                        arg_type = get_args(return_type)
+                        current_type = arg_type[0]
+                        print("load from redis")
+                        return [
+                            current_type.model_validate(item)
+                            for item in json.loads(data.decode())
+                        ]
+            except Exception as e:
+                raise e
 
         res = func(*args, **kwargs)
         print("load from api")
