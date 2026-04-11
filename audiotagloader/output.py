@@ -35,6 +35,9 @@ def track_tags_to_output(func) -> Callable:
         with open((dir / "tags.txt"), "w") as fp:
             fp.write("\n".join(table))
             fp.write("\n")
+
+        print(f"{album.year} - {album.artist} - {album.title}")
+
         return res
 
     return wrapper
