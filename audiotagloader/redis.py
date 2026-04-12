@@ -1,12 +1,12 @@
 import redis
-from .config import REDIS_PASSWORD
+from .config import REDIS_PASSWORD, REDIS_HOST, REDIS_PORT
 
 
 class RedisClient:
     def __init__(
         self,
-        host: str = "127.0.0.1",
-        port: int = 6379,
+        host: str = REDIS_HOST,
+        port: int = REDIS_PORT,
         password: str = REDIS_PASSWORD,
         decode_responses: bool = False,
     ):
