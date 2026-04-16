@@ -16,6 +16,8 @@
  ## QuickStart
  ### Installation
 
+
+
  ```bash
 git clone https://github.com/Olezhich/AudioTagLoader.git
 
@@ -32,6 +34,8 @@ docker-compose -f cache/docker-compose.yml up -d
 
 You also may add `autag` script into `$PATH`. 
 
+[DSM 5 cache installation](DSM_5_cache_installation.md)
+
  ### Uisng
 
  ```bash
@@ -46,5 +50,5 @@ autag fba "The Artist Name" .
 
 # Final step: set tags into tracks
 
-autag set
+auset
  ```

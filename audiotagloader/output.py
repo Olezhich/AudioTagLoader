@@ -3,6 +3,8 @@ from typing import Callable
 
 from .models import Album, Image, Tracklist
 
+import typer
+
 
 def track_tags_to_output(func) -> Callable:
     @wraps(func)
@@ -36,7 +38,11 @@ def track_tags_to_output(func) -> Callable:
             fp.write("\n".join(table))
             fp.write("\n")
 
-        print(f"{album.year} - {album.artist} - {album.title}")
+        typer.secho(
+            f"{album.year} - {album.artist} - {album.title}",
+            fg=typer.colors.BLUE,
+            bold=True,
+        )
 
         return res
 

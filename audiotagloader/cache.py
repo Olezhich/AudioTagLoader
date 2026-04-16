@@ -7,6 +7,8 @@ from pydantic import BaseModel
 
 from .redis import redis_client
 
+import typer
+
 UPDATE_CACHE = False
 
 
@@ -42,7 +44,9 @@ def cache(func: Callable) -> Callable:
                     else:
                         arg_type = get_args(return_type)
                         current_type = arg_type[0]
-                        print("load from redis")
+                        typer.secho(
+                            "Load from Redis cache", fg=typer.colors.GREEN, bold=True
+                        )
                         return [
                             current_type.model_validate(item)
                             for item in json.loads(data.decode())
@@ -51,7 +55,7 @@ def cache(func: Callable) -> Callable:
                 raise e
 
         res = func(*args, **kwargs)
-        print("load from api")
+        typer.secho("Load from Discogs api", fg=typer.colors.YELLOW, bold=True)
 
         try:
             serialized = "null"
@@ -63,7 +67,8 @@ def cache(func: Callable) -> Callable:
                 serialized = json.dumps([item.model_dump() for item in res])
 
             redis_client.set(key, serialized.encode())
-            print("dump to redis")
+
+            typer.secho("Dump to Redis cache", fg=typer.colors.GREEN, bold=True)
         except Exception as e:
             raise e
 

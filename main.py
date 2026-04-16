@@ -2,4 +2,7 @@ import audiotagloader
 
 
 if __name__ == "__main__":
-    audiotagloader.cli.cli_app()
+    try:
+        audiotagloader.cli.cli_app()
+    except KeyboardInterrupt:
+        print("Program terminates")
