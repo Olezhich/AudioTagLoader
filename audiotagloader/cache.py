@@ -39,18 +39,19 @@ def cache(func: Callable) -> Callable:
                 data = redis_client.get(key)
 
                 if data is not None:
+                    typer.secho(
+                        "Load from Redis cache", fg=typer.colors.GREEN, bold=True
+                    )
                     if issubclass(return_type, BaseModel):
                         return return_type.model_validate_json(data.decode())
                     else:
                         arg_type = get_args(return_type)
                         current_type = arg_type[0]
-                        typer.secho(
-                            "Load from Redis cache", fg=typer.colors.GREEN, bold=True
-                        )
                         return [
                             current_type.model_validate(item)
                             for item in json.loads(data.decode())
                         ]
+
             except Exception as e:
                 raise e
 

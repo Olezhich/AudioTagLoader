@@ -93,3 +93,43 @@ class Tracklist(BaseModel):
         for i in range(len(tracks)):
             tracks[i].position = i + 1
         return tracks
+
+
+class SacdRelease(BaseModel):
+    id: int
+    label: str = Field(default="")
+    country: str = Field(default="")
+    year: int = Field(default=0)
+
+    def __str__(self):
+        return f"({self.year} {self.label} {self.country}) - {self.id}"
+
+    def __hash__(self):
+        return hash(self.id)
+
+    def __eq__(self, other):
+        if not isinstance(other, Album):
+            return False
+        return self.id == other.id
+
+
+class ReleaseList(BaseModel):
+    sacds: list[SacdRelease] = Field(default_factory=lambda: list())
+    cd_flag: bool = Field(default=False)
+
+    def add_sacd(
+        self, id: int, label: str | None, country: str | None, year: int | str | None
+    ) -> None:
+        label = label if label is not None else ""
+        country = country if country is not None else ""
+        year = int(year) if year is not None else 0
+
+        self.sacds.append(SacdRelease(id=id, label=label, country=country, year=year))
+
+    @field_validator("sacds", mode="before")
+    @classmethod
+    def normalize_sacds(cls, value: list[SacdRelease] | None) -> list[SacdRelease]:
+        if value is None:
+            res: list[SacdRelease] = []
+            return res
+        return value
