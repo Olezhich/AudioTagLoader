@@ -1,7 +1,7 @@
 from functools import wraps
 from typing import Callable
 
-from .models import Album, Image, Tracklist
+from .models import Album, Image, Tracklist, ReleaseList
 
 import typer
 
@@ -44,6 +44,25 @@ def track_tags_to_output(func) -> Callable:
             bold=True,
         )
 
+        return res
+
+    return wrapper
+
+
+def releases_to_output(func) -> Callable:
+    @wraps(func)
+    def wrapper(*args, **kwargs) -> ReleaseList:
+        res: ReleaseList = func(*args, **kwargs)
+        if len(res.sacds) > 0:
+            typer.secho("SACDs:", fg=typer.colors.GREEN, bold=True)
+            for release in res.sacds:
+                print(release)
+        else:
+            typer.secho("no SACDs", fg=typer.colors.RED, bold=True)
+        if res.cd_flag:
+            typer.secho("CDs exist", fg=typer.colors.GREEN, bold=True)
+        else:
+            typer.secho("no CDs", fg=typer.colors.RED, bold=True)
         return res
 
     return wrapper

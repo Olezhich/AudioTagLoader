@@ -3,11 +3,11 @@ import discogs_client  # type: ignore
 
 from .config import DISCOGS_TOKEN, MAX_PROPOSED_LEN, IMAGE_SIZE_STUB
 
-from .models import Artist, Album, Image, Tracklist, Track, ReleaseType
+from .models import Artist, Album, Image, Tracklist, Track, ReleaseType, ReleaseList
 
 import re
 
-from .output import track_tags_to_output
+from .output import track_tags_to_output, releases_to_output
 
 from .cache import cache
 
@@ -180,6 +180,8 @@ class App:
         image = self._get_cover_image(current_album.id)
         tracks = self._get_tracklist(current_album.id)
 
+        self._get_releases_by_master_id(current_album.id)
+
         return (current_album, image, tracks)
 
     @track_tags_to_output
@@ -189,6 +191,8 @@ class App:
         current_album = self._get_album_by_id(master_id)
         image = self._get_cover_image(current_album.id)
         tracks = self._get_tracklist(current_album.id)
+
+        self._get_releases_by_master_id(master_id)
 
         return (current_album, image, tracks)
 
@@ -201,3 +205,24 @@ class App:
         tracks = self._get_tracklist(current_album.id, ReleaseType.RELEASE)
 
         return (current_album, image, tracks)
+
+    @releases_to_output
+    @cache
+    def _get_releases_by_master_id(self, master_id: int) -> ReleaseList:
+        res = self._client.master(master_id).versions
+
+        res.per_page = 100
+        releases = ReleaseList()
+        for i in range(res.pages):
+            for release in res.page(i):
+                if (id := release.data.get("id", None)) is not None:
+                    if "CD" in release.data.get("major_formats", None):
+                        releases.cd_flag = True
+                    if "SACD" in release.data.get("major_formats", None):
+                        releases.add_sacd(
+                            id=id,
+                            label=release.data.get("label", None),
+                            country=release.data.get("country", None),
+                            year=release.year,
+                        )
+        return releases
